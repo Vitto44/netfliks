@@ -1,6 +1,6 @@
 import useBanner from "@/hooks/useBanner";
 import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import FullSiteLoader from "./FullSiteLoader";
 
 interface BannerProps {

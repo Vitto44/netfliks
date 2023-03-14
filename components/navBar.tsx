@@ -1,6 +1,9 @@
 import Image from "next/image";
+import { FaChevronDown } from "react-icons/fa";
+import MobileMenu from "./MobileMenu";
 import { useEffect, useState } from "react";
-
+import AccountMenu from "./AccountMenu";
+import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
 import { useRouter } from "next/router";
 
 interface navBarProps {
@@ -12,6 +15,7 @@ const Offset = 66;
 
 const NavBar: React.FC<navBarProps> = ({ isDashboard, notFixed }) => {
   const router = useRouter();
+  const { data } = useAuthenticatedUser();
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [showAccMenu, setShowAccMenu] = useState<boolean>(false);
   const [navBgr, setNavBgr] = useState<boolean>(false);
@@ -84,10 +88,35 @@ const NavBar: React.FC<navBarProps> = ({ isDashboard, notFixed }) => {
             className="lg:hidden flex flex-row items-center gap-1 ml-8 cursor-pointer relative"
           >
             <p className="text-sm text-gray-300">browse</p>
+            <FaChevronDown
+              className={`text-gray-300 transition text-sm ${
+                showMenu ? "rotate-180" : "rotate-0"
+              }`}
+            />
+            <MobileMenu setVisible={setShowMenu} visible={showMenu} />
           </div>
           {/* <div className="text-gray-200 hover:text-gray-400 cursor-pointer text-2xl">
               <AiOutlineSearch />
             </div> */}
+          <div
+            className=" flex flex-row items-center gap-2 cursor-pointer"
+            onClick={() => setShowAccMenu(!showAccMenu)}
+          >
+            <div className="relative overflow-hidden rounded-md w-8 h-8 lg:h-10 lg:w-10 ">
+              <Image
+                fill
+                src="/images/face3.png"
+                alt="User Logo"
+                className="rounded-md"
+              />
+            </div>
+            <FaChevronDown
+              className={`text-white transition text-sm ${
+                showAccMenu ? "rotate-180" : "rotate-0"
+              }`}
+            />
+            <AccountMenu visible={showAccMenu} data={data} />
+          </div>
         </div>
       )}
     </nav>
